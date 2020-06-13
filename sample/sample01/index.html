@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>sample01(ぬりえサンプル)</title>
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+    <link href="../../sample_app.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <!-- pen point -->
+        <div id="penpoint" style="position: absolute; display: block;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" stroke-width="1" stroke="currentColor" fill="none">
+            <circle cx="20" cy="20" v-bind:r="pen.width" />
+          </svg>
+        </div>
+        <div>
+          <div>
+            <canvas id="layer" style="border: thin solid;border-width: 4px;"></canvas>
+            <canvas id="original_layer" style="visibility: hidden; display: none;"></canvas>
+          </div>
+        </div>
+        <br>
+        <div class="sidebar">
+          <div class="sticky">
+            PEN WIDTH:{{pen.width}}px<br>
+            <span id="penpoint" style="margin-left: 10px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="-1 -1 42 42" stroke-width="1" stroke="currentColor" v-bind:fill="pen.color" style="border: thin solid;">
+                <circle cx="20" cy="20" v-bind:r="pen.width" />
+              </svg>
+            </span>
+            <input type="range" name="range" min="1" max="20" v-model="pen.width"><br>
+            <br>
+            COLOR:<br>
+            <a class="nes-btn" href="#" v-on:click="open_color_dialog()" v-bind:style="bgcolor(pen.color)" style="width: 250px; margin-left: 10px;">{{pen.name}}</a>
+            <br>
+            <br>
+            COLOR HISTORY:<br>
+            <span v-for="(p,index) in color_history">
+              <a class="nes-btn" href="#" v-bind:style="bgcolor(p.color)" v-on:click="setcolor(p.color, p.name)" style="width: 120px; margin-left: 10px;">{{p.name}}</a>
+              <br v-if="(index % 2) != 0">
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- color selector -->
+      <div id="color_list_panel" style="position: absolute; bisibility: hidden; display: none; background: white; padding: 8px; border: thin solid; border-width: 4px;">
+        <div>
+          <a class="nes-btn" href="#" style="width: 100%;" v-on:click="close_color_dialog()"><i class="nes-icon close is-small"></i>&nbsp;CLOSE</a>
+        </div>
+        <table style="margin-top: 12px;">
+          <tr v-for="(i,index) in 12">
+            <td>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,0)" style="width: 120px;" v-on:click="choice_color(index,0)">{{get_color_name(index,0)}}</a>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,1)" style="width: 120px;" v-on:click="choice_color(index,1)">{{get_color_name(index,1)}}</a>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,2)" style="width: 120px;" v-on:click="choice_color(index,2)">{{get_color_name(index,2)}}</a>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,3)" style="width: 120px;" v-on:click="choice_color(index,3)">{{get_color_name(index,3)}}</a>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,4)" style="width: 120px;" v-on:click="choice_color(index,4)">{{get_color_name(index,4)}}</a>
+              <a class="nes-btn" href="#" v-bind:style="get_color_code(index,5)" style="width: 120px;" v-on:click="choice_color(index,5)">{{get_color_name(index,5)}}</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- about dialog -->
+      <div id="about_panel" style="position: absolute; bisibility: hidden; display: none; background: white; padding: 8px; border: thin solid; border-width: 4px;">
+        <h3>このアプリについて</h3>
+        <p>
+          HTML5+<a href="https://developer.mozilla.org/ja/docs/Web/API/Canvas_API" target="_blank">Canvas</a>を使用したぬりえアプリです。<br>
+          ぬりえの下絵データは<a href="https://twitter.com/iwate_vtuber/status/1258950633794625537" target="_blank">岩手さちこ</a>のぬりえデータを使用しています。<br>
+          カラーコードは<a href="https://copic.jp/product/sketch/" target="_blank">コピックスケッチ</a>の色名に合わせてあります。実際に紙に印刷してぬりえを楽しむ際の参考にしてみてください。
+        </p>
+        <p>
+          制限事項：<br>
+          <ul>
+            <li>ぬりえ途中の画像保存などは行えません。
+            <li>Webページを再読み込みするとぬりえ途中のデータがクリアされるのでご注意ください。
+            <li>現時点ではスマートフォンでの動作には対応していません。
+          </ul>
+        </p>
+        <p>
+          <i class="nes-icon github"></i><a href="https://github.com/furandon-pig/nurie" target="_blank">furandon-pig/nurie</a>
+        </p>
+        <a class="nes-btn is-primary" href="#" v-on:click="close_about_dialog()">CLOSE</a>
+      </div>
+    </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
+
