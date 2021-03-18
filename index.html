@@ -22,6 +22,14 @@
           <div>
             <a class="nes-btn" href="#" v-on:click="download_nurie()">Download</a>
             <a class="nes-btn" href="#" v-on:click="open_about_dialog()">About</a>
+            <!--
+            <div class="nes-select">
+              <select id="nurie_base_image" style="padding-left: 8px; padding-right: 8px" v-model="nurie_base_image" v-on:change="load_nurie_image">
+                <option value="iwate_sachiko">岩手さちこ</option>
+                <option value="joboji_neko">浄法寺のねこ</option>
+              </select>
+            </div>
+            -->
           </div>
           <div>
             <canvas id="layer" style="border: thin solid;border-width: 4px;"></canvas>
@@ -75,6 +83,7 @@
         <p>
           HTML5+<a href="https://developer.mozilla.org/ja/docs/Web/API/Canvas_API" target="_blank">Canvas</a>を使用したぬりえアプリです。<br>
           ぬりえの下絵データは<a href="https://twitter.com/iwate_vtuber/status/1258950633794625537" target="_blank">岩手さちこ</a>のぬりえデータを使用しています。<br>
+          <a href="https://twitter.com/jobojinoneko" target="_blank">浄法寺のねこ</a>のぬりえデータは、<a href="https://twitter.com/mira_poppy358/status/1371804949970096131" target="_blank">@mira_poppy358</a>さん作成のデータを利用させていただいています。<br>
           カラーコードは<a href="https://copic.jp/product/sketch/" target="_blank">コピックスケッチ</a>の色名に合わせてあります。実際に紙に印刷してぬりえを楽しむ際の参考にしてみてください。
         </p>
         <p>

@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: '#app',
   data: {
+    nurie_base_image: null,
     selecting_pallet: 0,
     nurie: {
       layer: null,
@@ -134,21 +135,22 @@ var vm = new Vue({
     this.pen.point = document.getElementById('penpoint');
     this.pen.is_down = false;
 
-    this.nurie.original_img.onload = function() {
-      var w = vm.nurie.original_img.width;
-      var h = vm.nurie.original_img.height;
-
-      vm.nurie.layer.width = w;
-      vm.nurie.layer.height = h;
-      vm.nurie.original_layer.width = w;
-      vm.nurie.original_layer.height = h;
-
-      vm.nurie.layer_ctx.drawImage(vm.nurie.original_img, 0, 0);
-      vm.nurie.original_layer_ctx.drawImage(vm.nurie.original_img, 0, 0);
-
-      vm.blend();
-    };
-    this.nurie.original_img.src = 'iwate_vtuber.jpg';
+    // nurieパラメータの値に応じて塗り絵の下絵を決める。
+    var url = new URL(window.location.href);
+    var params = url.searchParams;
+    let nurie_id = params.get('nurie');
+    switch (nurie_id) {
+      case '1':
+        this.nurie_base_image = 'iwate_sachiko';
+        break;
+      case '2':
+        this.nurie_base_image = 'joboji_neko';
+        break;
+      default:
+        this.nurie_base_image = 'iwate_sachiko';
+        break;
+    }
+    this.load_nurie_image();
 
     this.nurie_mousedown = function(ev) {
       vm.pen.is_down = true;
@@ -218,6 +220,36 @@ var vm = new Vue({
     this.pen.circle = new Path2D();
   },
   methods: {
+    load_nurie_image: function() {
+      var nurie_base_image_url = 'iwate_vtuber.jpg';
+      switch(this.nurie_base_image) {
+        case 'iwate_sachiko':
+          nurie_base_image_url = 'iwate_vtuber.jpg';
+          break;
+        case 'joboji_neko':
+          nurie_base_image_url = 'joboji_neko.jpg';
+          break;
+        default:
+          nurie_base_image_url = 'iwate_vtuber.jpg';
+          break;
+      }
+
+      this.nurie.original_img.onload = function() {
+        var w = vm.nurie.original_img.width;
+        var h = vm.nurie.original_img.height;
+
+        vm.nurie.layer.width = w;
+        vm.nurie.layer.height = h;
+        vm.nurie.original_layer.width = w;
+        vm.nurie.original_layer.height = h;
+
+        vm.nurie.layer_ctx.drawImage(vm.nurie.original_img, 0, 0);
+        vm.nurie.original_layer_ctx.drawImage(vm.nurie.original_img, 0, 0);
+
+        vm.blend();
+      };
+      this.nurie.original_img.src = nurie_base_image_url;
+    },
     blend: function() {
       var w = this.nurie.original_img.width;
       var h = this.nurie.original_img.height;
