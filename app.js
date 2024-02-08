@@ -146,6 +146,9 @@ var vm = new Vue({
       case '2':
         this.nurie_base_image = 'joboji_neko';
         break;
+      case '3':
+        this.nurie_base_image = 'syamiko';
+        break;
       default:
         this.nurie_base_image = 'iwate_sachiko';
         break;
@@ -228,6 +231,9 @@ var vm = new Vue({
           break;
         case 'joboji_neko':
           nurie_base_image_url = 'joboji_neko.jpg';
+          break;
+        case 'syamiko':
+          nurie_base_image_url = 'syamiko.jpg';
           break;
         default:
           nurie_base_image_url = 'iwate_vtuber.jpg';
